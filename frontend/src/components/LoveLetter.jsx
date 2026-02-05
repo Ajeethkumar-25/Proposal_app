@@ -7,9 +7,12 @@ const LoveLetter = ({ onSubmit }) => {
     const [step, setStep] = useState('template'); // 'template', 'customize', 'preview', 'sent'
     const [selectedTemplate, setSelectedTemplate] = useState(null);
     const [recipientName, setRecipientName] = useState('');
+    const [recipientEmail, setRecipientEmail] = useState('');
     const [senderName, setSenderName] = useState('');
+    const [senderEmail, setSenderEmail] = useState('');
     const [customMessage, setCustomMessage] = useState('');
     const [generatedLetter, setGeneratedLetter] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const templates = [
         {
@@ -82,8 +85,14 @@ ${sender}`
     };
 
     const handleGenerate = () => {
-        if (!recipientName.trim() || !senderName.trim()) {
-            alert('Please fill in both names');
+        if (!recipientName.trim() || !recipientEmail.trim() || !senderName.trim() || !senderEmail.trim()) {
+            alert('Please fill in all fields (names and emails)');
+            return;
+        }
+        // Basic email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(recipientEmail) || !emailRegex.test(senderEmail)) {
+            alert('Please enter valid email addresses');
             return;
         }
         const letter = selectedTemplate.template(recipientName, senderName, customMessage);
@@ -92,11 +101,14 @@ ${sender}`
     };
 
     const handleSend = async () => {
+        setLoading(true);
         try {
             const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
             await axios.post(`${apiUrl}/api/love-letter`, {
-                recipient: recipientName,
-                sender: senderName,
+                recipient_name: recipientName,
+                recipient_email: recipientEmail,
+                sender_name: senderName,
+                sender_email: senderEmail,
                 template: selectedTemplate.id,
                 letter: generatedLetter
             });
@@ -104,7 +116,9 @@ ${sender}`
             setTimeout(() => onSubmit && onSubmit(), 3000);
         } catch (error) {
             console.error('Error sending love letter:', error);
-            alert('Error sending letter. Please try again.');
+            alert('Error sending letter. Please check your email addresses and try again.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -163,12 +177,32 @@ ${sender}`
                         />
                     </div>
                     <div className="form-group">
+                        <label>Recipient's Email *</label>
+                        <input
+                            type="email"
+                            placeholder="their.email@example.com"
+                            value={recipientEmail}
+                            onChange={(e) => setRecipientEmail(e.target.value)}
+                            className="form-input"
+                        />
+                    </div>
+                    <div className="form-group">
                         <label>Your Name *</label>
                         <input
                             type="text"
                             placeholder="Your name"
                             value={senderName}
                             onChange={(e) => setSenderName(e.target.value)}
+                            className="form-input"
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Your Email *</label>
+                        <input
+                            type="email"
+                            placeholder="your.email@example.com"
+                            value={senderEmail}
+                            onChange={(e) => setSenderEmail(e.target.value)}
                             className="form-input"
                         />
                     </div>
@@ -207,8 +241,8 @@ ${sender}`
                         <button onClick={() => setStep('customize')} className="btn btn-secondary">
                             Edit
                         </button>
-                        <button onClick={handleSend} className="btn btn-primary">
-                            Send Letter 💌
+                        <button onClick={handleSend} className="btn btn-primary" disabled={loading}>
+                            {loading ? 'Sending...' : 'Send Letter 💌'}
                         </button>
                     </div>
                 </motion.div>
