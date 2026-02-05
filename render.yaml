@@ -1,0 +1,18 @@
+version: "1"
+projects:
+- name: My project
+  environments:
+  - name: Production
+    services:
+    - type: web
+      name: proposal-app
+      runtime: docker
+      repo: https://github.com/Ajeethkumar-25/Manifesting_project
+      branch: test
+      plan: free
+      region: singapore
+
+      dockerContext: .
+      dockerfilePath: Dockerfile
+
+      autoDeployTrigger: commit
