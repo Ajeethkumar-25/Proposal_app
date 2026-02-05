@@ -1,3 +1,4 @@
-fastapi
-uvicornaiofiles
+﻿fastapi
+uvicorn
+aiofiles
 python-dotenv

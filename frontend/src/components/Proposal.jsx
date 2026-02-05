@@ -23,7 +23,7 @@ const Proposal = () => {
         // "Inch by inch" movement
         // We nudge the button slightly from its CURRENT position
 
-        const nudgeAmount = 80; // The "inch" (pixels)
+        const nudgeAmount = 40; // The "inch" (pixels)
 
         // Get current coordinates
         // If it's the first time (not hovered yet), we need a starting point.
