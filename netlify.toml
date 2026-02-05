@@ -1,6 +1,7 @@
 [build]
-  command = "cd frontend && npm ci && npm run build"
+  command = "npm install && cd frontend && npm ci && npm run build"
   publish = "frontend/dist"
+  functions = "netlify/functions"
 
 [[redirects]]
   from = "/*"

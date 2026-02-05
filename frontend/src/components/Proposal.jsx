@@ -10,9 +10,9 @@ const Proposal = () => {
 
     const handleYesClick = async () => {
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
-            await axios.post(`${apiUrl}/api/respond`, { response: "yes" });
-            console.log("Response sent to backend");
+            // Call Netlify Function instead of backend API
+            await axios.post('/.netlify/functions/proposal-response', { response: "yes" });
+            console.log("Response sent to Netlify Function");
         } catch (error) {
             console.error("Error sending response:", error);
         }

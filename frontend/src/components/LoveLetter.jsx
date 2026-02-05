@@ -103,8 +103,8 @@ ${sender}`
     const handleSend = async () => {
         setLoading(true);
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
-            await axios.post(`${apiUrl}/api/love-letter`, {
+            // Call Netlify Function instead of backend API
+            const response = await axios.post('/.netlify/functions/send-love-letter', {
                 recipient_name: recipientName,
                 recipient_email: recipientEmail,
                 sender_name: senderName,
@@ -112,8 +112,13 @@ ${sender}`
                 template: selectedTemplate.id,
                 letter: generatedLetter
             });
-            setStep('sent');
-            setTimeout(() => onSubmit && onSubmit(), 3000);
+            
+            if (response.data.success) {
+                setStep('sent');
+                setTimeout(() => onSubmit && onSubmit(), 3000);
+            } else {
+                throw new Error(response.data.error || 'Failed to send letter');
+            }
         } catch (error) {
             console.error('Error sending love letter:', error);
             alert('Error sending letter. Please check your email addresses and try again.');
