@@ -1,42 +1,141 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.home-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.home-card {
+  background: white;
+  border-radius: 20px;
+  padding: 50px;
+  max-width: 1000px;
+  width: 100%;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3);
+}
+
+.home-header {
   text-align: center;
+  margin-bottom: 50px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.home-header h1 {
+  font-size: 3rem;
+  color: #333;
+  margin-bottom: 15px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.home-header p {
+  font-size: 1.2rem;
+  color: #666;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
 }
 
-.card {
-  padding: 2em;
+.option-card {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border: none;
+  border-radius: 15px;
+  padding: 40px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  font-size: 1rem;
 }
 
-.read-the-docs {
+.option-card.romantic {
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+}
+
+.option-card.direct {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+}
+
+.option-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.option-icon {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.option-card h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.option-card p {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.option-cta {
+  display: block;
+  font-weight: 600;
+  color: #667eea;
+  font-size: 1.1rem;
+}
+
+.home-footer {
+  text-align: center;
+  padding: 20px;
+  border-top: 2px solid #eee;
   color: #888;
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .home-card {
+    padding: 25px;
+  }
+
+  .home-header h1 {
+    font-size: 2rem;
+  }
+
+  .options-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .option-card {
+    padding: 25px;
+  }
+
+  .option-icon {
+    font-size: 2.5rem;
+  }
+
+  .option-card h2 {
+    font-size: 1.2rem;
+  }
 }

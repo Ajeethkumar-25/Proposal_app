@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 import os
+from datetime import datetime
 
 app = FastAPI()
 
@@ -22,10 +23,34 @@ app.add_middleware(
 def health_check():
     return {"status": "ok"}
 
+@app.post("/api/love-letter")
+def save_love_letter(data: dict):
+    """Save love letter submission"""
+    try:
+        # Log the love letter (in production, save to database)
+        timestamp = datetime.now().isoformat()
+        letter_log = {
+            "timestamp": timestamp,
+            "recipient": data.get("recipient"),
+            "sender": data.get("sender"),
+            "template": data.get("template"),
+            "letter_preview": data.get("letter", "")[:100] + "..."
+        }
+        print(f"Love letter received: {letter_log}")
+        return {"status": "success", "message": "Love letter saved!", "id": timestamp}
+    except Exception as e:
+        print(f"Error saving love letter: {e}")
+        return {"status": "error", "message": str(e)}
+
 @app.post("/api/respond")
 def respond(response: dict):
     # Log the response (in a real app, save to DB)
-    print(f"User responded: {response}")
+    timestamp = datetime.now().isoformat()
+    log_entry = {
+        "timestamp": timestamp,
+        "response": response.get("response"),
+    }
+    print(f"User responded: {log_entry}")
     return {"status": "success", "message": "Proposal accepted!"}
 
 # Serve Static Files (Frontend) using a specific path logic to allow SPA
